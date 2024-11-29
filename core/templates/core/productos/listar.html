@@ -1,0 +1,47 @@
+{% extends "core/base.html" %}
+
+{% block content %}
+    <div class="container">
+        <br><br>
+        <div class="card">
+            <div class="card-body">
+                <h2>Listado de Productos</h2>
+                <hr>
+                <table class="table table-striped table-responsive-sm table-hover">
+                    <tr class="table-success">
+                        <th>Nombre</th>
+                        <th>Precio</th>
+                        <th>Marca</th>
+                        <th>¿Es Nuevo?</th>
+                        <th>Opciones</th>
+                    </tr>
+                    {% for product in products %}
+                    <tr>
+                        <td>{{product.name}}</td>
+                        <td>{{product.price}}</td>
+                        <td>{{product.brand}}</td>
+                        <td>
+                            {% if product.state %}
+                            Sí
+                            {% else %}
+                            No
+                            {% endif %}
+
+                        </td>
+                        <td>
+                            {% if perms.core.change_product %}
+                            <a href="{% url 'modificar_producto' product.id %}" class="btn btn-primary btn-sm">Modificar</a>
+                            {% endif %}
+                            {% if perms.core.delete_product %}
+                            <a href="{% url 'eliminar_producto' product.id %}" class="btn btn-danger btn-sm">Eliminar</a>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                    
+                </table>
+            </div>
+        </div>
+    </div>
+    <br><br>
+{% endblock %}

@@ -1,0 +1,28 @@
+{% extends "core/base.html" %}
+
+{% block content %}
+{% load crispy_forms_tags %}
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12 col-md-6 offset-3">
+                <div class="card my-3">
+                    <div class="card-body">
+                        <h2>Modificar Producto</h2>
+                        <hr>
+
+                        <form action="" method="POST" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            {{ form | crispy }}
+
+                            <div class="d-flex justify-content-end ">
+                                <a href="{% url 'listar_productos' %}" class="btn btn-secondary mr-2">Cancelar</a>
+                                <input type="submit" value="Modificar" class="btn btn-primary">
+                            </div>
+
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
