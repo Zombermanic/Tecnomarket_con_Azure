@@ -27,7 +27,11 @@ SECRET_KEY = 'django-insecure-q^gw3_t3s^!337&3i-=h_s#2n))yvbagy(y5_1+ik)rwe-((ri
 DEBUG = True
 
 
-ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', '').split(',')
+ALLOWED_HOSTS = [
+    'tecnomarket2-ebe9e9fdevfxauep.brazilsouth-01.azurewebsites.net',
+    '127.0.0.1',
+    'localhost',
+]
 
 
 
