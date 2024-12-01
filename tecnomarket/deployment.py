@@ -1,22 +1,24 @@
 import os
 from .settings import BASE_DIR
 
-# Clave secreta obtenida desde una variable de entorno
+# Clave secreta desde las variables de entorno
 SECRET_KEY = os.environ['SECRET']
 
-# Permitir el dominio configurado en Azure
-WEBSITE_HOSTNAME = os.environ.get('WEBSITE_HOSTNAME', '')
-ALLOWED_HOSTS = [WEBSITE_HOSTNAME] if WEBSITE_HOSTNAME else []
+import os
 
-# Proteger el origen de las solicitudes CSRF
+ALLOWED_HOSTS = [
+    os.environ.get('WEBSITE_HOSTNAME', ''),  # Dominio proporcionado automáticamente por Azure
+    'localhost',  # Para pruebas locales
+]
+
 CSRF_TRUSTED_ORIGINS = [
-    f"https://{WEBSITE_HOSTNAME}"
-] if WEBSITE_HOSTNAME else []
+    'https://' + os.environ.get('WEBSITE_HOSTNAME', ''),  # Dominio proporcionado automáticamente por Azure
+]
 
-# Modo de depuración desactivado en producción
+
 DEBUG = False
 
-# Middleware configurado correctamente
+# Middleware
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
@@ -32,16 +34,16 @@ MIDDLEWARE = [
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
-# Configuración de la base de datos desde variables de entorno
-connection_string = os.environ.get('AZURE_POSTGRESQL_CONNECTIONSTRING', '')
-parameters = {pair.split('=')[0]: pair.split('=')[1] for pair in connection_string.split(' ')} if connection_string else {}
+# Configuración de base de datos desde una variable de entorno
+connection_string = os.environ['AZURE_POSTGRESQL_CONNECTIONSTRING']
+parameters = {pair.split('=')[0]: pair.split('=')[1] for pair in connection_string.split(' ')}
 
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': parameters.get('dbname', ''),
-        'HOST': parameters.get('host', ''),
-        'USER': parameters.get('user', ''),
-        'PASSWORD': parameters.get('password', ''),
+        'NAME': parameters['dbname'],
+        'HOST': parameters['host'],
+        'USER': parameters['user'],
+        'PASSWORD': parameters['password'],
     }
 }
