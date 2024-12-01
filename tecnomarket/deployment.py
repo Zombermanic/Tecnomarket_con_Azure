@@ -2,6 +2,7 @@ import os
 from .settings import BASE_DIR
 
 SECRET_KEY = os.environ['SECRET']
+print(os.environ.get('WEBSITE_HOSTNAME'))
 ALLOWED_HOSTS = [os.environ['WEBSITE_HOSTNAME']]  # Verifica que esta variable esté configurada correctamente
 CSRF_TRUSTED_ORIGINS = ['https://' + os.environ['WEBSITE_HOSTNAME']]  # Verifica que la URL esté bien configurada
 DEBUG = False
